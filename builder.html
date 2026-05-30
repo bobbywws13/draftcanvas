@@ -2,20 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>DraftCanvas Customization Studio</title>
   <style>
     * { box-sizing: border-box; }
     body { background-color: #f1f5f9; color: #0f172a; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
     
-    .app-container { display: flex; width: 100vw; height: 100vh; overflow: hidden; flex-direction: column; }
+    /* MOBILE RESPONSIVE MASTER GRID TRACKS */
+    .app-container { display: flex; width: 100vw; height: 100vh; overflow: hidden; flex-direction: column-reverse; }
     @media (min-width: 1024px) { .app-container { flex-direction: row; } }
 
-    aside { width: 100%; background: #ffffff; border-bottom: 1px solid #e2e8f0; flex-shrink: 0; display: flex; flex-direction: column; }
-    @media (min-width: 1024px) { aside { width: 380px; height: 100vh; border-bottom: 0; border-right: 1px solid #e2e8f0; } }
+    /* EDIT SIDEBAR CONTROL PANELS */
+    aside { width: 100%; background: #ffffff; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    @media (min-width: 1024px) { aside { width: 380px; height: 100vh; flex-shrink: 0; border-right: 1px solid #e2e8f0; } }
     
-    .sidebar-header { padding: 16px; border-bottom: 1px solid #e2e8f0; background: #f8fafc; display: flex; justify-content: space-between; align-items: center; }
-    .sidebar-content { padding: 16px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 18px; }
+    .sidebar-header { padding: 14px 16px; border-bottom: 1px solid #e2e8f0; background: #f8fafc; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+    .sidebar-content { padding: 16px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 18px; -webkit-overflow-scrolling: touch; }
     
     .section-title { font-size: 11px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 8px 0; }
     .grid-2 { display: grid; grid-template-cols: 1fr 1fr; gap: 8px; }
@@ -39,28 +41,348 @@
     .color-dot:active { transform: scale(0.9); }
     .color-dot.selected { border-color: #0f172a; transform: scale(1.1); }
 
-    .roster-container { display: flex; flex-direction: column; gap: 8px; max-height: 140px; overflow-y: auto; border: 1px solid #e2e8f0; padding: 6px; border-radius: 8px; background: #f8fafc; }
+    .roster-container { display: flex; flex-direction: column; gap: 8px; border: 1px solid #e2e8f0; padding: 8px; border-radius: 8px; background: #f8fafc; }
     .roster-row { display: flex; flex-direction: column; gap: 4px; background: white; border: 1px solid #e2e8f0; padding: 6px 8px; border-radius: 6px; }
     
-    main { flex: 1; background: #f1f5f9; padding: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .canvas-wrap { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); width: 100%; max-width: 800px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    canvas { width: 100%; height: auto; aspect-ratio: 4/3; max-height: 70vh; object-fit: contain; background: #020617; border-radius: 4px; }
+    /* STABLE STAGE STYLING (Pins the canvas at the top of smartphones) */
+    main { width: 100%; background: #0f172a; padding: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; height: 32vh; border-bottom: 1px solid #334155; }
+    @media (min-width: 1024px) { main { height: 100vh; flex: 1; background: #f1f5f9; border-bottom: 0; padding: 16px; } }
+    
+    .canvas-wrap { width: 100%; max-width: 850px; height: 100%; display: flex; align-items: center; justify-content: center; background: transparent; border-radius: 0; padding: 0; box-shadow: none; }
+    @media (min-width: 1024px) { .canvas-wrap { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); height: auto; } }
+    
+    canvas { max-width: 100%; max-height: 100%; aspect-ratio: 4/3; object-fit: contain; background: #020617; border-radius: 4px; }
 
-    .footer-card { padding: 16px; border-top: 1px solid #e2e8f0; background: #f8fafc; }
-    .btn-main { width: 100%; padding: 12px; background: #10b981; border: none; border-radius: 8px; color: white; font-weight: bold; font-size: 12px; text-transform: uppercase; cursor: pointer; text-align: center; display: block; text-decoration: none; }
-    .btn-main:hover { background: #059669; }
+    /* STICKY FOOTER ACTION SHEET */
+    .footer-card { padding: 12px 16px; border-top: 1px solid #e2e8f0; background: #f8fafc; flex-shrink: 0; box-shadow: 0 -4px 12px rgba(0,0,0,0.03); }
+    .btn-main { width: 100%; padding: 12px; background: #10b981; border: none; border-radius: 8px; color: white; font-weight: bold; font-size: 13px; text-transform: uppercase; cursor: pointer; text-align: center; display: block; text-decoration: none; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2); }
   </style>
 </head>
 <body>
 
 <div class="app-container">
+  
   <aside>
     <div class="sidebar-header">
-      <h1 style="margin:0; font-size:18px; font-weight:900; color:#059669;">DRAFTCANVAS</h1>
+      <h1 style="margin:0; font-size:16px; font-weight:900; color:#059669;">DRAFTCANVAS</h1>
       <span style="font-size:10px; font-family:monospace; background:#e2e8f0; padding:2px 6px; border-radius:4px; font-weight:bold; color:#475569;">FINAL v4.3</span>
     </div>
 
     <div class="sidebar-content">
+      <div>
+        <div class="section-title">1. Board Dimensions</div>
+        <div class="grid-2">
+          <div>
+            <span style="font-size:10px; color:#64748b; font-weight:600; display:block; margin-bottom:4px;">Teams (8-20)</span>
+            <div class="stepper">
+              <button onclick="updateTeams(-1)" class="btn-step">-</button>
+              <span id="lblTeams" class="lbl-val">12</span>
+              <button onclick="updateTeams(1)" class="btn-step">+</button>
+            </div>
+          </div>
+          <div>
+            <span style="font-size:10px; color:#64748b; font-weight:600; display:block; margin-bottom:4px;">Rounds (10-20)</span>
+            <div class="stepper">
+              <button onclick="updateRounds(-1)" class="btn-step">-</button>
+              <span id="lblRounds" class="lbl-val">15</span>
+              <button onclick="updateRounds(1)" class="btn-step">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">2. Header Logo Preferences</div>
+        <div class="grid-2">
+          <button id="logoOnBtn" onclick="toggleLogos(true)" class="tgl-btn active">Show Logos</button>
+          <button id="logoOffBtn" onclick="toggleLogos(false)" class="tgl-btn">No Logos</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">3. Banner Headers & Main Logo</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <input type="text" id="inTitle" value="MY FANTASY LEAGUE" oninput="syncData()">
+          <div class="grid-2">
+            <input type="text" id="inDate" value="AUGUST 29TH" oninput="syncData()">
+            <input type="text" id="inLoc" value="THE WAR ROOM" oninput="syncData()">
+          </div>
+          <div>
+            <input type="file" accept="image/*" onchange="uploadLeagueLogo(event)" class="file-input">
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">4. Football Theme Presets</div>
+        <div class="theme-grid">
+          <button onclick="setTheme('stadium')" class="btn-theme">🏟️ Stadium Lights</button>
+          <button onclick="setTheme('gridiron')" class="btn-theme">🏈 The Gridiron</button>
+          <button onclick="setTheme('gold')" class="btn-theme">🏆 Trophy Gold</button>
+          <button onclick="setTheme('carbon')" class="btn-theme">⚫ Matte Carbon</button>
+          <button onclick="setTheme('redzone')" class="btn-theme">🎯 The Redzone</button>
+          <button onclick="setTheme('dynasty')" class="btn-theme">👑 The Dynasty</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">5. Grid Accent Palette</div>
+        <div class="palette-flex">
+          <div id="dot-emerald" onclick="setAccent('#10b981', 'emerald')" class="color-dot selected" style="background:#10b981;"></div>
+          <div id="dot-pink" onclick="setAccent('#ec4899', 'pink')" class="color-dot" style="background:#ec4899;"></div>
+          <div id="dot-blue" onclick="setAccent('#3b82f6', 'blue')" class="color-dot" style="background:#3b82f6;"></div>
+          <div id="dot-amber" onclick="setAccent('#f59e0b', 'amber')" class="color-dot" style="background:#f59e0b;"></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">6. Franchise Roster Editor</div>
+        <div id="rosterList" class="roster-container"></div>
+      </div>
+    </div>
+
+    <div class="footer-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span style="font-size:11px; color:#64748b; font-weight:600;">Custom Board Package</span>
+        <span style="font-size:16px; font-weight:900; color:#059669; font-family:monospace;">$49.00</span>
+      </div>
+      <button onclick="addCustomBoardToCart()" class="btn-main">🛒 Add Board To Cart</button>
+    </div>
+  </aside>
+
+  <main>
+    <div class="canvas-wrap">
+      <canvas id="canvasMain"></canvas>
+    </div>
+  </main>
+
+</div>
+
+<script>
+  let board = {
+    teams: 12,
+    rounds: 15,
+    title: "MY FANTASY LEAGUE",
+    date: "AUGUST 29TH",
+    location: "THE WAR ROOM",
+    theme: "stadium",
+    accentColor: "#10b981", 
+    showLogos: true,
+    leagueLogoImg: null,
+    teamData: []
+  };
+
+  for (let i = 0; i < 20; i++) {
+    board.teamData.push({ name: "TEAM " + (i + 1), customImage: null });
+  }
+
+  function addCustomBoardToCart() {
+    const customTitle = encodeURIComponent(board.title || "MY LEAGUE");
+    window.location.href = "index.html?viewcart=true&title=" + customTitle;
+  }
+
+  function updateTeams(amt) {
+    board.teams = Math.max(8, Math.min(20, board.teams + amt));
+    document.getElementById('lblTeams').innerText = board.teams;
+    rebuildRosterUI();
+    drawBoard();
+  }
+
+  function updateRounds(amt) {
+    board.rounds = Math.max(10, Math.min(20, board.rounds + amt));
+    document.getElementById('lblRounds').innerText = board.rounds;
+    drawBoard();
+  }
+
+  function toggleLogos(visible) {
+    board.showLogos = visible;
+    document.getElementById('logoOnBtn').className = "tgl-btn " + (visible ? 'active' : '');
+    document.getElementById('logoOffBtn').className = "tgl-btn " + (!visible ? 'active' : '');
+    drawBoard();
+  }
+
+  function setTheme(id) { board.theme = id; drawBoard(); }
+  
+  function setAccent(hex, name) {
+    board.accentColor = hex;
+    const dots = document.querySelectorAll('.color-dot');
+    dots.forEach(d => d.classList.remove('selected'));
+    document.getElementById('dot-' + name).classList.add('selected');
+    drawBoard();
+  }
+
+  function syncData() {
+    board.title = document.getElementById('inTitle').value.toUpperCase();
+    board.date = document.getElementById('inDate').value.toUpperCase();
+    board.location = document.getElementById('inLoc').value.toUpperCase();
+    drawBoard();
+  }
+  function syncTeamName(idx, val) { board.teamData[idx].name = val.toUpperCase(); drawBoard(); }
+
+  function uploadLeagueLogo(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() { board.leagueLogoImg = img; drawBoard(); };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function uploadTeamLogo(event, idx) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() { board.teamData[idx].customImage = img; drawBoard(); };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function rebuildRosterUI() {
+    const container = document.getElementById('rosterList');
+    if (!container) return;
+    container.innerHTML = "";
+    for (let i = 0; i < board.teams; i++) {
+      let row = document.createElement('div');
+      row.className = "roster-row";
+      row.innerHTML = `
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:11px; font-family:monospace; font-weight:bold; color:#94a3b8; width:16px; text-align:center;">${i+1}</span>
+          <input type="text" value="${board.teamData[i].name}" oninput="syncTeamName(${i}, this.value)">
+        </div>
+        <input type="file" accept="image/*" onchange="uploadTeamLogo(event, ${i})" style="font-size:9px; color:#64748b; margin-left:24px; margin-top:2px;">
+      `;
+      container.appendChild(row);
+    }
+  }
+
+  function drawFootballGraphic(ctx, cx, cy, w, h) {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.04)";
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx - w/2, cy);
+    ctx.quadraticCurveTo(cx, cy - h/2, cx + w/2, cy);
+    ctx.quadraticCurveTo(cx, cy + h/2, cx - w/2, cy);
+    ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx - w/4, cy); ctx.lineTo(cx + w/4, cy);
+    ctx.stroke();
+  }
+
+  function drawImageCropped(ctx, img, targetX, targetY, targetW, targetH) {
+    const imgW = img.width; const imgH = img.height;
+    const imgRatio = imgW / imgH; const targetRatio = targetW / targetH;
+    let sourceX = 0, sourceY = 0, sourceW = imgW, sourceH = imgH;
+    if (imgRatio > targetRatio) { sourceW = imgH * targetRatio; sourceX = (imgW - sourceW) / 2; } 
+    else { sourceH = imgW / targetRatio; sourceY = (imgH - sourceH) / 2; }
+    ctx.drawImage(img, sourceX, sourceY, sourceW, sourceH, targetX, targetY, targetW, targetH);
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const canvas = document.getElementById('canvasMain');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    canvas.width = 1600;
+    canvas.height = 1200;
+    
+    const margin = 60;
+    const bannerBoxHeight = 160; 
+    const gridTopY = margin + bannerBoxHeight + 30; 
+    const headerHeight = board.showLogos ? 65 : 35;
+    const gridBodyTopY = gridTopY + headerHeight;
+    const usableW = canvas.width - (margin * 2);
+    const colW = usableW / board.teams;
+    const rowH = (canvas.height - gridBodyTopY - margin) / board.rounds;
+
+    window.drawBoard = function() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (board.theme === 'stadium') {
+        let grad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 50, canvas.width/2, canvas.height/2, 900);
+        grad.addColorStop(0, '#334155'); grad.addColorStop(1, '#0f172a');
+        ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.03)";
+        ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(350,0); ctx.lineTo(canvas.width/2, canvas.height); ctx.closePath(); ctx.fill();
+      } else if (board.theme === 'gridiron') {
+        ctx.fillStyle = '#16a34a'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#15803d';
+        for (let w = margin; w < canvas.width - margin; w += 140) {
+          if ((w / 10) % 2 === 0) ctx.fillRect(w, gridTopY, 70, canvas.height - gridTopY - margin);
+        }
+      } else if (board.theme === 'gold') {
+        ctx.fillStyle = '#262626'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(234, 179, 8, 0.04)';
+        ctx.beginPath(); ctx.moveTo(canvas.width/2 - 30, canvas.height/2 + 150); ctx.lineTo(canvas.width/2 + 30, canvas.height/2 + 150); ctx.lineTo(canvas.width/2 + 10, canvas.height/2 - 30); ctx.lineTo(canvas.width/2 + 40, canvas.height/2 - 120); ctx.lineTo(canvas.width/2 - 40, canvas.height/2 - 120); ctx.lineTo(canvas.width/2 - 10, canvas.height/2 - 30); ctx.closePath(); ctx.fill();
+      } else if (board.theme === 'carbon') {
+        ctx.fillStyle = '#171717'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)'; ctx.lineWidth = 1;
+        for (let k = 0; k < canvas.width; k += 24) { ctx.beginPath(); ctx.moveTo(k, 0); ctx.lineTo(k, canvas.height); ctx.stroke(); }
+      } else if (board.theme === 'redzone') {
+        ctx.fillStyle = '#262626'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#b91c1c'; ctx.fillRect(margin, canvas.height - margin - 100, canvas.width - (margin*2), 100);
+      } else if (board.theme === 'dynasty') {
+        ctx.fillStyle = '#1e293b'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        drawFootballGraphic(ctx, canvas.width / 2, canvas.height / 2 + 150, 240, 140);
+      }
+
+      ctx.strokeStyle = board.accentColor; ctx.lineWidth = 8; ctx.strokeRect(margin/2, margin/2, canvas.width - margin, canvas.height - margin);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)'; ctx.lineWidth = 1.5; ctx.strokeRect(margin - 15, margin - 15, canvas.width - (margin*2) + 30, canvas.height - (margin*2) + 30);
+
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.55)';
+      ctx.fillRect(margin, margin, canvas.width - (margin * 2), bannerBoxHeight);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)'; ctx.lineWidth = 2; 
+      ctx.strokeRect(margin, margin, canvas.width - (margin * 2), bannerBoxHeight);
+
+      if (board.leagueLogoImg) { drawImageCropped(ctx, board.leagueLogoImg, margin + 25, margin + 25, 110, 110); }
+
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillStyle = "#ffffff"; ctx.font = "500 52px system-ui, sans-serif"; 
+      ctx.fillText(board.title || "MY LEAGUE", canvas.width / 2, margin + 45);
+
+      ctx.fillStyle = board.accentColor; ctx.fillRect(canvas.width / 2 - 120, margin + 85, 240, 3);
+      ctx.fillStyle = "#cbd5e1"; ctx.font = "500 15px monospace"; 
+      ctx.fillText(`📅 DATE: ${board.date}       🏆 LOCATION: ${board.location}`, canvas.width / 2, margin + 115);
+
+      for (let i = 0; i < board.teams; i++) {
+        const colX = margin + (i * colW);
+        ctx.fillStyle = i % 2 === 0 ? "rgba(255, 255, 255, 0.03)" : "rgba(0, 0, 0, 0.25)";
+        ctx.fillRect(colX, gridBodyTopY, colW, canvas.height - gridBodyTopY - margin);
+
+        ctx.fillStyle = i % 2 === 0 ? "#1e293b" : "#111827";
+        ctx.fillRect(colX, gridTopY, colW, headerHeight);
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.15)"; ctx.lineWidth = 1.5;
+        ctx.strokeRect(colX, gridTopY, colW, headerHeight);
+
+        if (board.showLogos) {
+          let logoCenterY = gridTopY + 22;
+          if (board.teamData[i].customImage) {
+            let boxSize = Math.min(26, colW - 12);
+            drawImageCropped(ctx, board.teamData[i].customImage, colX + (colW / 2) - (boxSize / 2), logoCenterY - (boxSize / 2), boxSize, boxSize);
+          } else {
+            ctx.fillStyle = "rgba(16, 185, 129, 0.15)"; ctx.strokeStyle = board.accentColor; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.arc(colX + (colW / 2), logoCenterY, Math.min(10, colW/6), 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          }
+          let nameFontSize = board.teams > 16 ? 9 : (board.teams > 12 ? 10 : 11);
+          ctx.fillStyle = "#f1f5f9"; ctx.font = "500 " + nameFontSize + "px monospace"; 
+          ctx.fillText(board.teamData[i].name, colX + (colW / 2), gridTopY + 48, colW - 10);
+        } else {
+          let nameFontSize = board.teams > 16 ? 9 : (board.teams > 12 ? 11 : 12);
+          ctx.fillStyle = "#f1f5f9"; ctx.font = "500 " + nameFontSize + "px monospace"; 
+          ctx.fillText(board.teamData[i].name, colX + (colW / 2), gridTopY + 16, colW - 10);
+        }
+
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.15)"; ctx.lineWidth = 1.5;
+        if (i > 0) { ctx.beginPath(); ctx.moveTo(colX, gridTopY); ctx.lineTo(colX, canvas.height - margin); ctx.stroke(); }
+
+        for (let r = 0; r <= board.rounds; r++) {
+     <div class="sidebar-content">
       <div>
         <div class="section-title">1. Board Dimensions</div>
         <div class="grid-2">
