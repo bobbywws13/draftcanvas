@@ -11,7 +11,6 @@
 </head>
 <body class="bg-neutral-50 text-neutral-900 min-h-screen font-sans antialiased selection:bg-emerald-200 selection:text-neutral-950 flex flex-col justify-between">
   
-  <!-- STOREFRONT NAVIGATION BAR -->
   <nav class="border-b border-neutral-200 bg-white/90 backdrop-blur sticky top-0 z-50 px-6 py-4 flex items-center justify-between shadow-xs">
     <div class="flex items-center gap-2">
       <span class="text-xl font-black tracking-wider text-emerald-600">DRAFTCANVAS</span>
@@ -27,12 +26,11 @@
       </button>
       <div onclick="toggleCart()" class="relative p-2 bg-neutral-100 border border-neutral-200 rounded cursor-pointer select-none hover:bg-neutral-200 transition">
         <span class="text-sm">🛒</span>
-        <span id="cartBadge" class="absolute -top-1.5 -right-1.5 bg-emerald-600 text-white font-mono text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">1</span>
+        <span id="cartBadge" class="hidden absolute -top-1.5 -right-1.5 bg-emerald-600 text-white font-mono text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
       </div>
     </div>
   </nav>
 
-  <!-- HERO ATTENTION CENTERPIECE -->
   <header class="max-w-7xl mx-auto px-6 pt-16 pb-24 grid grid-cols-1 md:grid-cols-12 gap-12 items-center flex-1 w-full">
     <div class="md:col-span-7 space-y-6 text-center md:text-left">
       <span class="inline-block bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
@@ -54,12 +52,165 @@
       </div>
     </div>
 
-    <!-- GRAPHICAL PREVIEW MOCKUP CONTAINER -->
     <div class="md:col-span-5 relative w-full aspect-[4/3] bg-white border border-neutral-200 rounded-2xl shadow-xl p-4 flex flex-col justify-between overflow-hidden">
       <div class="absolute inset-0 bg-gradient-to-tr from-emerald-500/5 to-transparent pointer-events-none"></div>
       <div class="flex items-center justify-between border-b border-neutral-100 pb-2">
         <span class="font-mono text-[9px] text-neutral-400">interactive_preview_active.sh</span>
         <div class="flex gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-neutral-200"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-neutral-200"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/30"></span>
+        </div>
+      </div>
+      
+      <div class="flex-1 bg-neutral-900 rounded-lg m-2 border border-neutral-800 p-3 flex flex-col justify-between relative overflow-hidden shadow-inner">
+        <div class="text-center space-y-1 pt-2">
+          <div class="text-white font-black text-sm tracking-wide uppercase">MY FANTASY LEAGUE</div>
+          <div class="text-[8px] font-mono text-emerald-400">📅 AUGUST 29TH  |  🏆 THE WAR ROOM</div>
+        </div>
+        <div class="grid grid-cols-6 gap-1 my-2 opacity-30">
+          <div class="h-6 bg-neutral-800 border border-neutral-700 rounded text-[6px] text-white flex items-center justify-center font-bold">T1</div>
+          <div class="h-6 bg-neutral-800 border border-neutral-700 rounded text-[6px] text-white flex items-center justify-center font-bold">T2</div>
+          <div class="h-6 bg-neutral-800 border border-neutral-700 rounded text-[6px] text-white flex items-center justify-center font-bold">T3</div>
+          <div class="h-6 bg-neutral-800 border border-neutral-700 rounded text-[6px] text-white flex items-center justify-center font-bold">T4</div>
+          <div class="h-6 bg-neutral-800 border border-neutral-700 rounded text-[6px] text-white flex items-center justify-center font-bold">T5</div>
+          <div class="h-6 bg-neutral-800 border border-neutral-700 rounded text-[6px] text-white flex items-center justify-center font-bold">T6</div>
+        </div>
+        <div class="text-[9px] text-neutral-400 font-mono text-center pb-2 select-none">🔍 Auto-Scaling 48" x 36" Layout Engine</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="features" class="border-t border-neutral-200 bg-white py-20 px-6 w-full">
+    <div class="max-w-5xl mx-auto space-y-12">
+      <div class="text-center space-y-2">
+        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight text-neutral-950">Engineered For Commissioners</h2>
+        <p class="text-neutral-500 text-xs sm:text-sm max-w-xl mx-auto">We built the most flexible digital customizer on the market so your board fits your league perfectly.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+        <div class="flex gap-4">
+          <div class="text-emerald-600 text-lg font-bold font-mono">01/</div>
+          <div class="space-y-1">
+            <h5 class="font-bold text-sm uppercase tracking-tight text-neutral-950">Dynamic Grid Scaling</h5>
+            <p class="text-neutral-600 text-xs leading-relaxed">Whether you run an intimate 8-team keeper league or a massive 20-team deep format, our engine instantly splits column tracking precisely down to the millimeter so nobody gets crowded.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="text-emerald-600 text-lg font-bold font-mono">02/</div>
+          <div class="space-y-1">
+            <h5 class="font-bold text-sm uppercase tracking-tight text-neutral-950">Zero Graphic Violation Risks</h5>
+            <p class="text-neutral-600 text-xs leading-relaxed">Keep your league looking professional without blurry internet rips. We offer beautiful minimalist vector badges alongside private logo file-upload matrices.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kit" class="border-t border-neutral-200 bg-neutral-100/60 py-20 px-6 w-full">
+    <div class="max-w-5xl mx-auto space-y-12">
+      <div class="text-center space-y-2">
+        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight text-neutral-950">What's Inside Every Shipment</h2>
+        <p class="text-neutral-500 text-xs sm:text-sm max-w-xl mx-auto">We do not sell cheap flimsy paper. Every order is a complete, rugged, draft-night infrastructure package.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white border border-neutral-200 rounded-xl p-6 space-y-3 shadow-xs">
+          <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">📐</div>
+          <h4 class="text-xs font-black uppercase tracking-wider text-neutral-950">48" × 36" Premium Heavy Paper</h4>
+          <p class="text-neutral-600 text-xs leading-relaxed">A massive physical canvas cut at classic 4:3 proportions. Engineered using industrial, low-glare matte stock so intense overhead taproom lights won't cause reflections.</p>
+        </div>
+        <div class="bg-white border border-neutral-200 rounded-xl p-6 space-y-3 shadow-xs">
+          <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">🏷️</div>
+          <h4 class="text-xs font-black uppercase tracking-wider text-neutral-950">Universal Sticker System Sheet Pack</h4>
+          <p class="text-neutral-600 text-xs leading-relaxed">Includes a massive collection of individual custom sizing color-coded player tracking labels separated clearly by position groups (QB, RB, WR, TE, K, DEF).</p>
+        </div>
+        <div class="bg-white border border-neutral-200 rounded-xl p-6 space-y-3 shadow-xs">
+          <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">📦</div>
+          <h4 class="text-xs font-black uppercase tracking-wider text-neutral-950">Heavy Rigid Tube Packing</h4>
+          <p class="text-neutral-600 text-xs leading-relaxed">Boards are never folded, meaning zero permanent creases or tears. Every kit rolls securely into thick-walled commercial cardboard shipping cylinders so it arrives flawless.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="border-t border-neutral-200 bg-white py-20 px-6 text-center space-y-4 w-full">
+    <p class="text-[10px] font-mono text-neutral-400 uppercase tracking-widest font-bold">Premium Layout Engine Access. Shipped in Heavy Cardboard Vault Tubes.</p>
+    <p class="text-5xl font-black text-neutral-950 font-mono">$49<span class="text-lg text-neutral-400 font-normal">.00 USD</span></p>
+    <p class="text-xs text-neutral-500 max-w-sm mx-auto leading-relaxed">Plus calculated carrier rigid tube package delivery rates applied smoothly at checkout routing grids.</p>
+    <div class="pt-4">
+      <button onclick="window.location.href='builder.html'" class="px-6 py-3 bg-neutral-950 hover:bg-neutral-800 text-white font-bold text-xs uppercase tracking-wider rounded-lg shadow-md cursor-pointer">
+        Start Customizing Your Board ➡️
+      </button>
+    </div>
+  </section>
+
+  <div id="cartDrawer" class="fixed inset-y-0 right-0 w-full sm:w-96 bg-white border-l border-neutral-200 shadow-2xl p-6 transform translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col justify-between">
+    <div class="space-y-6">
+      <div class="flex items-center justify-between border-b border-neutral-200 pb-4">
+        <h3 class="text-sm font-black uppercase tracking-wider text-neutral-950">Your Shopping Cart</h3>
+        <button onclick="toggleCart()" class="text-neutral-400 hover:text-neutral-900 text-xs font-bold cursor-pointer">✕ Close</button>
+      </div>
+      
+      <div id="cartEmptyState" class="text-center py-12 text-neutral-400 text-xs font-medium uppercase tracking-wider">
+        Your cart is currently empty
+      </div>
+
+      <div id="cartProductRow" class="hidden bg-neutral-50 border border-neutral-200 rounded-lg p-4 flex gap-4 items-center">
+        <div class="w-12 h-9 bg-neutral-900 rounded border border-neutral-800 font-mono text-[7px] p-1 flex flex-col justify-between overflow-hidden select-none opacity-95">
+          <div class="font-bold text-neutral-400">DRAFTCANVAS</div>
+          <div class="text-emerald-400">48"x36" PRINT</div>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h5 id="cartItemTitle" class="text-xs font-bold uppercase text-neutral-950 truncate">Customizer Draft Board Kit</h5>
+          <p class="text-[10px] text-neutral-500 font-mono">Dynamic Grid + Sticker Pack Included</p>
+        </div>
+        <div class="text-xs font-mono font-bold text-neutral-900">$49.00</div>
+      </div>
+    </div>
+
+    <div class="space-y-4 border-t border-neutral-200 pt-4">
+      <div class="space-y-1.5">
+        <div class="flex justify-between text-xs text-neutral-500"><span>Customized Board Kit</span><span id="subtotalVal" class="font-mono text-neutral-900">$0.00</span></div>
+        <div class="flex justify-between text-xs text-neutral-500"><span>Rigid Tube Carrier Shipping</span><span id="shippingVal" class="font-mono text-neutral-900">$0.00</span></div>
+        <div class="flex justify-between text-sm font-bold text-neutral-950 pt-2 border-t border-neutral-200"><span>Total Due</span><span id="totalVal" class="font-mono text-emerald-600">$0.00</span></div>
+      </div>
+      <button id="checkoutBtn" disabled class="w-full py-3 bg-neutral-200 text-neutral-400 font-black rounded-lg text-xs uppercase tracking-wider transition-all cursor-not-allowed">
+        Cart Empty
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let isCartOpen = false;
+    function toggleCart() {
+      const drawer = document.getElementById('cartDrawer');
+      isCartOpen = !isCartOpen;
+      if (isCartOpen) { drawer.classList.remove('translate-x-full'); } 
+      else { drawer.classList.add('translate-x-full'); }
+    }
+    function processIncomingCart() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('viewcart') === 'true') {
+        const leagueName = params.get('title') || 'CUSTOM FANTASY LEAGUE';
+        document.getElementById('cartEmptyState').classList.add('hidden');
+        document.getElementById('cartProductRow').classList.remove('hidden');
+        document.getElementById('cartItemTitle').innerText = leagueName + " KIT";
+        document.getElementById('subtotalVal').innerText = "$49.00";
+        document.getElementById('shippingVal').innerText = "$11.99";
+        document.getElementById('totalVal').innerText = "$60.99";
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        checkoutBtn.disabled = false;
+        checkoutBtn.className = "w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-lg text-xs uppercase tracking-wider shadow transition-all cursor-pointer";
+        checkoutBtn.innerText = "Secure Checkout with Stripe";
+        const badge = document.getElementById('cartBadge');
+        badge.innerText = "1";
+        badge.classList.remove('hidden');
+        setTimeout(toggleCart, 300);
+      }
+    }
+    window.onload = processIncomingCart;
+  </script>
+</body>
+</html>
           <span class="w-1.5 h-1.5 rounded-full bg-neutral-200"></span>
           <span class="w-1.5 h-1.5 rounded-full bg-neutral-200"></span>
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/30"></span>
