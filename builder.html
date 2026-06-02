@@ -83,17 +83,18 @@
   let board = { teams: 12, rounds: 15, title: "MY FANTASY LEAGUE", date: "AUGUST 29TH", location: "THE WAR ROOM", theme: "stadium", accentColor: "#10b981", leagueLogoImg: null, teamData: [] };
   let currentZoomScale = 1, currentLeft = 0, currentTop = 0;
   
-  // B bulletproof FIX: Hardcoding the high-res transparent white variant logo directly as an inline source data map string
+  // LOOKS FOR YOUR EXACT FILENAME AND ENFORCES A LOAD SAFETY RE-TRIGGER
   const companyWatermarkImg = new Image();
-  companyWatermarkImg.src = "brand-logo-white.png";
+  companyWatermarkImg.src = "DraftCanvas Logo - White w Transparent.png";
   
-  // This event guarantees that once the image loads, it will explicitly repaint the board
-  companyWatermarkImg.onload = function() { if(window.drawBoard) window.drawBoard(); };
+  companyWatermarkImg.onload = function() { 
+    if(window.drawBoard) window.drawBoard(); 
+  };
   
-  // Back-up trigger: If the file path fails, we render an exact fallback SVG path vector natively so a clean logo layout is guaranteed
-  let svgLogoDataUrl = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60"><text x="10" y="40" fill="white" font-family="system-ui" font-size="22" font-weight="900" letter-spacing="2">DRAFTCANVAS</text></svg>';
-  const fallbackLogoImg = new Image();
-  fallbackLogoImg.src = svgLogoDataUrl;
+  // Re-trigger loop ensures that if the server delays, it listens for completion and draws it beautifully
+  if (companyWatermarkImg.complete) {
+    setTimeout(() => { if(window.drawBoard) window.drawBoard(); }, 500);
+  }
 
   for (let i = 0; i < 20; i++) { board.teamData.push({ name: "TEAM " + (i + 1), customImage: null }); }
   function addCustomBoardToCart() { window.location.href = "index.html?viewcart=true&title=" + encodeURIComponent(board.title); }
@@ -139,7 +140,7 @@
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)'; ctx.lineWidth = 2; ctx.strokeRect(leftMarginOffset, margin, canvas.width - margin - leftMarginOffset, bannerBoxHeight);
       if (board.leagueLogoImg) { drawImageCropped(ctx, board.leagueLogoImg, leftMarginOffset + 25, margin + 25, 110, 110); }
       
-      // HEADER TITLES SYSTEM
+      // TITLE AND SUBTITLE SYSTEM
       ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = "#ffffff"; ctx.font = "500 50px system-ui, sans-serif"; 
       ctx.fillText(board.title || "MY LEAGUE", (canvas.width - margin + leftMarginOffset) / 2, margin + 42);
       ctx.fillStyle = "rgba(255, 255, 255, 0.22)"; ctx.font = "900 24px system-ui, sans-serif";
@@ -148,17 +149,13 @@
       ctx.fillStyle = "#cbd5e1"; ctx.font = "500 14px monospace"; 
       ctx.fillText("DATE: " + board.date + "       LOCATION: " + board.location, (canvas.width - margin + leftMarginOffset) / 2, margin + 126);
       
-      // BRING TO FRONT LOGO PRINT MATRIX:
-      // Executed at the absolute tail end of the banner logic so it draws on top of all color fills
+      // ABSOLUTE FOREGROUND IMAGE DRAW COMMANDS
       const targetLogoW = 200, targetLogoH = 85;
       const targetLogoX = canvas.width - margin - targetLogoW - 35;
       const targetLogoY = margin + (bannerBoxHeight - targetLogoH) / 2;
 
       if (companyWatermarkImg.complete && companyWatermarkImg.naturalWidth !== 0) {
         ctx.drawImage(companyWatermarkImg, targetLogoX, targetLogoY, targetLogoW, targetLogoH);
-      } else {
-        // Safe continuous fallback check
-        ctx.drawImage(fallbackLogoImg, targetLogoX, targetLogoY, targetLogoW, targetLogoH);
       }
       
       // GRID GENERATOR MATRIX
