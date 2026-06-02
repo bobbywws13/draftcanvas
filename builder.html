@@ -179,7 +179,7 @@
   let currentZoomScale = 1;
   let currentLeft = 0, currentTop = 0;
   
-  // Explicitly mapping to the simplified lowercase name
+  // FIXED PRELOADER PATH: Grayscale path completely erased. Pointing strictly to lowercase standard asset name.
   const companyWatermarkImg = new Image();
   companyWatermarkImg.src = "brand-logo-white.png";
   companyWatermarkImg.onload = function() { if(window.drawBoard) window.drawBoard(); };
@@ -246,28 +246,28 @@
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)'; ctx.lineWidth = 2; ctx.strokeRect(leftMarginOffset, margin, canvas.width - margin - leftMarginOffset, bannerBoxHeight);
       if (board.leagueLogoImg) { drawImageCropped(ctx, board.leagueLogoImg, leftMarginOffset + 25, margin + 25, 110, 110); }
       
-      // TITLE LOGISTICS MATRIX
+      // HEADER BANNER TEXT SYSTEM
       ctx.textAlign = "center"; ctx.textBaseline = "middle";
       ctx.fillStyle = "#ffffff"; ctx.font = "500 50px system-ui, sans-serif"; 
       ctx.fillText(board.title || "MY LEAGUE", (canvas.width - margin + leftMarginOffset) / 2, margin + 42);
 
-      // CENTER UNDER-TITLE "DRAFT BOARD" LABEL
+      // CENTER UNDER-TITLE SUBTITLE
       ctx.fillStyle = "rgba(255, 255, 255, 0.22)";
       ctx.font = "900 24px system-ui, sans-serif";
       ctx.fillText("DRAFT BOARD", (canvas.width - margin + leftMarginOffset) / 2, margin + 82);
 
-      // Accent visual separator line strip
+      // Accent color decorative split rule bar
       ctx.fillStyle = board.accentColor; ctx.fillRect((canvas.width - margin + leftMarginOffset) / 2 - 120, margin + 104, 240, 3);
       
-      // Secondary data values badge string row
+      // Secondary subtitle data info string row
       ctx.fillStyle = "#cbd5e1"; ctx.font = "500 14px monospace"; 
       ctx.fillText("DATE: " + board.date + "       LOCATION: " + board.location, (canvas.width - margin + leftMarginOffset) / 2, margin + 126);
       
-      // DETECTED AND RESTORED LOGO RENDERING MATRIX:
-      // Injects full 100% opacity handling natively into the 2D matrix context tracker
+      // FULL TRANSPARENT WHITE BRAND EMBEM DRAW REGION:
+      // Fixed at 100% full alpha canvas coloring with no muted transparency gates
       if (companyWatermarkImg.complete && companyWatermarkImg.naturalWidth !== 0) {
         ctx.save();
-        ctx.globalAlpha = 1.0; // Wiped out all heavy transparent alpha fades completely
+        ctx.globalAlpha = 1.0; 
         const logoW = 200;
         const logoH = 85;
         ctx.drawImage(companyWatermarkImg, canvas.width - margin - logoW - 35, margin + (bannerBoxHeight - logoH) / 2, logoW, logoH);
