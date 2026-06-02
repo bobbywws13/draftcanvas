@@ -47,7 +47,7 @@
     .roster-row { display: flex; flex-direction: column; gap: 4px; background: white; border: 1px solid #e2e8f0; padding: 8px; border-radius: 6px; }
     
     .footer-card { padding: 16px 24px; border-top: 1px solid #e2e8f0; background: #ffffff; flex-shrink: 0; box-shadow: 0 -4px 12px rgba(0,0,0,0.04); }
-    .btn-main { width: 100%; padding: 14px; background: #10b981; border: none; border-radius: 8px; color: ; font-weight: bold; font-size: 13px; text-transform: uppercase; cursor: pointer; text-align: center; display: block; text-decoration: none; }
+    .btn-main { width: 100%; padding: 14px; background: #10b981; border: none; border-radius: 8px; color: white; font-weight: bold; font-size: 13px; text-transform: uppercase; cursor: pointer; text-align: center; display: block; text-decoration: none; }
     .zoom-box { background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 6px; }
     .zoom-slider { width: 100%; accent-color: #10b981; cursor: pointer; }
     
@@ -75,7 +75,7 @@
   <aside class="config-sidebar">
     <div class="sidebar-header">
       <span style="font-size:11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Studio Configurator</span>
-      <span style="font-size:10px; font-family:monospace; background:#e2e8f0; padding:2px 6px; border-radius:4px; font-weight:bold;">v5.4 LIVE</span>
+      <span style="font-size:10px; font-family:monospace; background:#e2e8f0; padding:2px 6px; border-radius:4px; font-weight:bold;">v5.5 LIVE</span>
     </div>
     <div class="sidebar-content">
       <div>
@@ -179,11 +179,10 @@
   let currentZoomScale = 1;
   let currentLeft = 0, currentTop = 0;
   
-  // PRELOADER: Explicitly looks for the exact name matching the GitHub file
+  // PRELOADER: Linked strictly to the new clean file name
   const companyWatermarkImg = new Image();
-  companyWatermarkImg.src = "brand-white.png";
+  companyWatermarkImg.src = "brand-logo-white.png";
   companyWatermarkImg.onload = function() { if(window.drawBoard) window.drawBoard(); };
-  companyWatermarkImg.onerror = function() { console.log("Verifying image path link resolution..."); };
   
   for (let i = 0; i < 20; i++) { board.teamData.push({ name: "TEAM " + (i + 1), customImage: null }); }
   
@@ -238,7 +237,7 @@
       if (board.theme === 'stadium') { let grad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 50, canvas.width/2, canvas.height/2, 900); grad.addColorStop(0, '#334155'); grad.addColorStop(1, '#0f172a'); ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = "rgba(255, 255, 255, 0.03)"; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(350,0); ctx.lineTo(canvas.width/2, canvas.height); ctx.closePath(); ctx.fill(); }
       else if (board.theme === 'gridiron') { ctx.fillStyle = '#16a34a'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = '#15803d'; for (let w = leftMarginOffset; w < canvas.width - margin; w += 140) { if ((w / 10) % 2 === 0) ctx.fillRect(w, gridTopY, 70, canvas.height - gridTopY - margin); } }
       else if (board.theme === 'gold') { ctx.fillStyle = '#262626'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = 'rgba(234, 179, 8, 0.04)'; ctx.beginPath(); ctx.moveTo(canvas.width/2 - 30, canvas.height/2 + 150); ctx.lineTo(canvas.width/2 + 30, canvas.height/2 + 150); ctx.lineTo(canvas.width/2 + 10, canvas.height/2 - 30); ctx.lineTo(canvas.width/2 + 40, canvas.height/2 - 120); ctx.lineTo(canvas.width/2 - 40, canvas.height/2 - 120); ctx.lineTo(canvas.width/2 - 10, canvas.height/2 - 30); ctx.closePath(); ctx.fill(); }
-      else if (board.theme === 'carbon') { ctx.fillStyle = '#171717'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)'; ctx.lineWidth = 1; for (let k = 0; k < canvas.width; k += 24) { ctx.beginPath(); ctx.moveTo(k, 0); ctx.lineTo(k, canvas.height); ctx.stroke(); } }
+      else if (board.theme === 'carbon') { ctx.fillStyle = '#171717'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)'; ctx.lineWidth = 1; for (let k = 0; k < canvas.width; k += 24) { ctx.beginPath(); ctx.moveTo(k, 0); ctx.lineTo(k, canvas.height); stroke(); } }
       else if (board.theme === 'redzone') { ctx.fillStyle = '#262626'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = '#b91c1c'; ctx.fillRect(leftMarginOffset, canvas.height - margin - 100, canvas.width - margin - leftMarginOffset, 100); }
       else if (board.theme === 'dynasty') { ctx.fillStyle = '#1e293b'; ctx.fillRect(0, 0, canvas.width, canvas.height); drawFootballGraphic(ctx, canvas.width / 2, canvas.height / 2 + 150, 240, 140); }
       ctx.strokeStyle = board.accentColor; ctx.lineWidth = 8; ctx.strokeRect(margin/2, margin/2, canvas.width - margin, canvas.height - margin);
@@ -247,27 +246,27 @@
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)'; ctx.lineWidth = 2; ctx.strokeRect(leftMarginOffset, margin, canvas.width - margin - leftMarginOffset, bannerBoxHeight);
       if (board.leagueLogoImg) { drawImageCropped(ctx, board.leagueLogoImg, leftMarginOffset + 25, margin + 25, 110, 110); }
       
-      // TITLE RENDERING:
+      // TITLE TEXT LAYER
       ctx.textAlign = "center"; ctx.textBaseline = "middle";
       ctx.fillStyle = "#ffffff"; ctx.font = "500 50px system-ui, sans-serif"; 
       ctx.fillText(board.title || "MY LEAGUE", (canvas.width - margin + leftMarginOffset) / 2, margin + 42);
 
-      // "DRAFT BOARD" STRING:
+      // CENTER STACKED "DRAFT BOARD" LABEL
       ctx.fillStyle = "rgba(255, 255, 255, 0.22)";
       ctx.font = "900 24px system-ui, sans-serif";
       ctx.fillText("DRAFT BOARD", (canvas.width - margin + leftMarginOffset) / 2, margin + 82);
 
-      // Divider band strip
+      // Divider line accent
       ctx.fillStyle = board.accentColor; ctx.fillRect((canvas.width - margin + leftMarginOffset) / 2 - 120, margin + 104, 240, 3);
       
-      // Date & Location sub-header details row
+      // Date and Location row
       ctx.fillStyle = "#cbd5e1"; ctx.font = "500 14px monospace"; 
       ctx.fillText("DATE: " + board.date + "       LOCATION: " + board.location, (canvas.width - margin + leftMarginOffset) / 2, margin + 126);
       
-      // LOGO RENDERER: Pulls the transparent PNG asset natively across the right banner quadrant
+      // LOGO RENDER ENGINE: References the simple alphanumeric filename track
       if (companyWatermarkImg.complete && companyWatermarkImg.naturalWidth !== 0) {
         ctx.save();
-        ctx.globalAlpha = 0.35; // Bright opacity level layout
+        ctx.globalAlpha = 0.35;
         const logoW = 200;
         const logoH = 85;
         ctx.drawImage(companyWatermarkImg, canvas.width - margin - logoW - 35, margin + (bannerBoxHeight - logoH) / 2, logoW, logoH);
