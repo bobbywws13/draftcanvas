@@ -47,7 +47,7 @@
     .roster-row { display: flex; flex-direction: column; gap: 4px; background: white; border: 1px solid #e2e8f0; padding: 8px; border-radius: 6px; }
     
     .footer-card { padding: 16px 24px; border-top: 1px solid #e2e8f0; background: #ffffff; flex-shrink: 0; box-shadow: 0 -4px 12px rgba(0,0,0,0.04); }
-    .btn-main { width: 100%; padding: 14px; background: #10b981; border: none; border-radius: 8px; color: white; font-weight: bold; font-size: 13px; text-transform: uppercase; cursor: pointer; text-align: center; display: block; text-decoration: none; }
+    .btn-main { width: 100%; padding: 14px; background: #10b981; border: none; border-radius: 8px; color: ; font-weight: bold; font-size: 13px; text-transform: uppercase; cursor: pointer; text-align: center; display: block; text-decoration: none; }
     .zoom-box { background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 6px; }
     .zoom-slider { width: 100%; accent-color: #10b981; cursor: pointer; }
     
@@ -181,7 +181,7 @@
   
   // PRELOADER: Explicitly looks for the exact name matching the GitHub file
   const companyWatermarkImg = new Image();
-  companyWatermarkImg.src = "DraftCanvas Logo - White w Transparent.png";
+  companyWatermarkImg.src = "brand-white.png";
   companyWatermarkImg.onload = function() { if(window.drawBoard) window.drawBoard(); };
   companyWatermarkImg.onerror = function() { console.log("Verifying image path link resolution..."); };
   
